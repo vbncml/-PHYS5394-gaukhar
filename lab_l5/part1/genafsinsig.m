@@ -4,9 +4,9 @@ function sigVec = genafsinsig(dataX,snr,b,freqs)
 % Generates an AM-FM sinusoid signal S. X is the vector of
 % time stamps at which the samples of the signal are to be computed. SNR is
 % the matched filtering signal-to-noise ratio of S, B is the coefficient and F is the vector of
-% 3 frequencies [fo, f1, f2] of the signal 
-% S = A*cos(2*pi*f2*t)*sin(2*pi*f0*t+ b*cos(2*pi*f1*t)), 
-% where f0>>f1,f2 and f1>f2
+% 3 frequencies [fo, f1, f2] of the signal S =
+% A*cos(2*pi*f2*t)*sin(2*pi*f0*t+ b*cos(2*pi*f1*t)), where f0>>f1,f2 and
+% f1>f2
 
 %Gaukhar Nurbek, Jan 2021
 

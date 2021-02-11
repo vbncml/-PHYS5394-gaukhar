@@ -38,3 +38,6 @@ fftSig = fftSig(1:kNyq);
 %Plot periodogram
 figure;
 plot(posFreq,abs(fftSig));
+xlabel("Frequency (Hz)")
+ylabel("FFT")
+%save("part1_periodogram.png")
