@@ -87,8 +87,7 @@ for i = 1:3
     plot(posFreq,abs(filt_fftSig));
     title(['Output signal for filter #',num2str(i)])
     xlabel("Frequency (Hz)")
-    ylabel("FFT")
-    %save(['periodogram_filter_',num2str(i),'.png'])
-    
+    ylabel("FFT")   
+
 end
     

@@ -1,4 +1,4 @@
-%% Plot the AM-FM sinusoid signal
+% Plot the AM-FM sinusoid signal
 % Signal parameters
 f0 = 70;
 f1 = 60;
@@ -38,6 +38,6 @@ fftSig = fftSig(1:kNyq);
 %Plot periodogram
 figure;
 plot(posFreq,abs(fftSig));
+title("Periodogram of AM-FM sinusoid")
 xlabel("Frequency (Hz)")
 ylabel("FFT")
-%save("part1_periodogram.png")
