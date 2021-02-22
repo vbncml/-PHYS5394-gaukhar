@@ -1,12 +1,17 @@
 % Plot the AM-FM sinusoid signal
 % Signal parameters
 f0 = 70;
-f1 = 60;
-f2 = 30;
+f1 = 10;
+f2 = 5;
 A = 10;
 b = 2;
-% Instantaneous frequency after 1 sec is 
-maxFreq = f0-b*f1*sin(2*pi*f1);
+% Instantaneous frequency within 1 sec is 
+%maxFreq = f0-b*f1*sin(2*pi*f1);
+%SDM: the instantaneous frequency oscillates around f0 within the 1 sec
+%interval, so what is the maximum value it can take? It happens whenever
+%sin(2*pi*f1*dataX) is +1. The maximum value does not necessarily happen at
+%the end of 1 sec.
+maxFreq = f0+b*f1;
 % 5 times the Nyquist sampling frequency
 samplFreq = 5*maxFreq;
 samplIntrvl = 1/samplFreq;
@@ -23,6 +28,9 @@ nSamples_1 = length(timeVec_1)
 % Generate the signal
 sigVec = genafsinsig(timeVec,A,b,[f0,f1,f2]);
 sigVec_1 = genafsinsig(timeVec_1,A,b,[f0,f1,f2]);
+
+figure;
+plot(timeVec,sigVec);
 
 %Plot the periodogram
 %--------------
