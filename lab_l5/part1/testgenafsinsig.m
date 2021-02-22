@@ -6,6 +6,7 @@ f2 = 30;
 A = 10;
 b = 2;
 % Instantaneous frequency after 1 sec is 
+%FIXME SDM: See corrections to lab4 code
 maxFreq = f0-b*f1*sin(2*pi*f1);
 samplFreq = 5*maxFreq;
 samplIntrvl = 1/samplFreq;
