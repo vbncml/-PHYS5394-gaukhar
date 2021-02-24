@@ -1,17 +1,17 @@
 % Plot the spectrogram of AM-FM sinusoid signal
 % Signal parameters
-f0 = 50;
-f1 = 40;
-f2 = 20;
+f0 = 100;
+f1 = 0.5;
+f2 = 1;
 A = 10;
 b = 5;
 % Instantaneous frequency after 1 sec is 
-maxFreq = f0-b*f1*sin(2*pi*f1);
+maxFreq = f0+b*f1;
 samplFreq = 5*maxFreq;
 samplIntrvl = 1/samplFreq;
 
 % Time samples
-timeVec = 0:samplIntrvl:5.0;
+timeVec = 0:samplIntrvl:15.0;
 % Number of samples
 nSamples = length(timeVec);
 
