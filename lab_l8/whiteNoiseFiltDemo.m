@@ -17,7 +17,8 @@ t = 0:1/sampFreq:5;
 % Design whitening filter 
 fltrOrdr = 500;
 freqVec = f;
-b = fir2(fltrOrdr,freqVec/(sampFreq/2),pxx/6);
+%b = fir2(fltrOrdr,freqVec/(sampFreq/2),pxx/6);
+b = fir2(fltrOrdr,freqVec/(sampFreq/2),1./sqrt(pxx));
 
 % pass data through the designed filter
 outData = sqrt(sampFreq)*fftfilt(b,signalVec);
