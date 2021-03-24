@@ -9,30 +9,27 @@ timeVec = (0:(nSamples-1))/sampFreq;
 % Read data 
 psdVals = load('iLIGOSensitivity.txt','-ascii');
 
-
-
-%Plot PSD
+%Plot log(sqrtPSD) of data
 freqVec = reshape(psdVals(:,1),1,97);
 psdVec = reshape(psdVals(:,2),1,97);
 plot(log(freqVec),log(psdVec));
-title("Frequency vs PSD")
-xlabel('Frequency (Hz)');
-ylabel('PSD');
+title("log(Frequency) vs log(sqrtPSD)")
+xlabel('log(Frequency)');
+ylabel('log(sqrtPSD)');
 
-% Design FIR filter with T(f)= square root of target PSD
-
-fltrOrdr = 500;
-
+% add f= 0 and psd(f=0) to the data
 freqVec = [0.0 freqVec];
 sqrtPSD = [0.0 psdVec];
 
-%apply f <= 50 => s(f) = s(50) and f >= 700 => s(f) = s(700)
+% apply f <= 50 => s(f) = s(50) and f >= 700 => s(f) = s(700)
 idx_50 = find(round(freqVec)==50);
-idx_700 = find(round(freqVec)==653);
+idx_700 = find(round(freqVec)==718);
 
-psdVec(1:idx_50) = psdVec(idx_50);
-psdVec(idx_700:end) = psdVec(idx_700);
+sqrtPSD(1:idx_50) = sqrtPSD(idx_50);
+sqrtPSD(idx_700:end) = sqrtPSD(idx_700);
 
+% design filtler 
+fltrOrdr = 500;
 f = freqVec/(sampFreq/2);
 b = fir2(fltrOrdr,f,sqrtPSD);
 
@@ -42,10 +39,11 @@ b = fir2(fltrOrdr,f,sqrtPSD);
 inNoise = randn(1,nSamples);
 outNoise = fftfilt(b,inNoise);
 
+% Plot the LIGO noise PSD vs frequency
 [pxx,f]=pwelch(outNoise, 256,[],[],sampFreq);
 figure;
 plot(f,pxx);
-title("Frequency vs PSD")
+title("Frequency vs PSD of LIGO noise")
 xlabel('Frequency (Hz)');
 ylabel('PSD');
 % Plot the LIGO noise realization
