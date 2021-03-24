@@ -1,51 +1,40 @@
 %% Demo for LIGO noise generation
 %Sampling frequency for noise realization
-sampFreq = 1024; %Hz
+sampFreq = 2*9412.34; %Hz
 %Number of samples to generate
-nSamples = 4*16384;
+nSamples = 16384;
 %Time samples
 timeVec = (0:(nSamples-1))/sampFreq;
 
 % Read data 
 psdVals = load('iLIGOSensitivity.txt','-ascii');
 
-%Target PSD given by the inline function handle
-%targetPSD = @(f) (f>=50 & f<=700).*(f-50).*(700-f)/10000;
+
 
 %Plot PSD
-freqVec = 0:0.1:512;
-%psdVec = targetPSD(freqVec);
-plot(log(psdVals(:,1)),log(psdVals(:,2)));
+freqVec = reshape(psdVals(:,1),1,97);
+psdVec = reshape(psdVals(:,2),1,97);
+plot(log(freqVec),log(psdVec));
 title("Frequency vs PSD")
 xlabel('Frequency (Hz)');
 ylabel('PSD');
 
-%%
-% Add f = 0 and f = fs/2 values into psdVals
-newFreqVec = [0 psdVals sampFreq/2];
-newPsdVec = 
+
 % Design FIR filter with T(f)= square root of target PSD
-% sqrtPSD = sqrt(psdVec);
- fltrOrdr = 500;
-% b = fir2(fltrOrdr,freqVec/(sampFreq/2),sqrt(psdVec));
-% 
-% %%
-% % Generate a WGN realization and pass it through the designed filter
-% % (Comment out the line below if new realizations of WGN are needed in each run of this script)
-% rng('default'); 
-% inNoise = randn(1,nSamples);
-% outNoise = fftfilt(b,inNoise);
 
-%% Generate noise realization
-outNoise = ligonoisegen(nSamples,psdVals,fltrOrdr,sampFreq);
+fltrOrdr = 500;
 
-%%
-% Estimate the PSD
-% figure;
-% pwelch(outNoise, 512,[],[],sampFreq);
-% hold on;
-% pwelch(inNoise, 512, [], [], sampFreq);
-%Pwelch plots in dB (= 10*log10(x)); plot on a linear scale
+freqVec = [0.0 freqVec];
+sqrtPSD = [targetPSD(0.0) psdVec];
+f = freqVec/(sampFreq/2);
+b = fir2(fltrOrdr,f,sqrtPSD);
+
+
+% Generate a WGN realization and pass it through the designed filter
+
+inNoise = randn(1,nSamples);
+outNoise = fftfilt(b,inNoise);
+
 [pxx,f]=pwelch(outNoise, 256,[],[],sampFreq);
 figure;
 plot(f,pxx);
