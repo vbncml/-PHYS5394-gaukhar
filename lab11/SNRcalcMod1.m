@@ -22,9 +22,13 @@ f2 = 1;
 A = 10;
 b = 5;
 % Data generation parameters 
-maxFreq = f0+b*f1;
-sampFreq = 5*maxFreq;
+%SDM **************************
+sampFreq = 1024; %Hz
 nSamples = 2048;
+%******************************
+% maxFreq = f0+b*f1;
+% sampFreq = 5*maxFreq;
+% nSamples = 2048;
 timeVec = (0:(nSamples-1))/sampFreq;
 
 % Generate the signal
