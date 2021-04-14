@@ -23,8 +23,11 @@ f2 = 1;
 A = 10;
 b = 5;
 % Data generation parameters 
-maxFreq = f0+b*f1;
-sampFreq = maxFreq;
+% maxFreq = f0+b*f1;
+% sampFreq = maxFreq;
+%SDM **************************
+sampFreq = 2048; %Hz
+%******************************
 nSamples = 2048;
 timeVec = (0:(nSamples-1))/sampFreq;
 
@@ -44,13 +47,25 @@ freqVec = posFreq;
 psdVec = reshape(interpPsdVals,1,length(posFreq));
 
 % apply f <= 50 => s(f) = s(50) and f >= 700 => s(f) = s(700)
-idx_low = find(round(freqVec)==50);
-idx_high = find(round(freqVec)==718);
-psdVec(1:idx_low) = psdVec(idx_low(3));
+% idx_low = find(round(freqVec)==50);
+% idx_high = find(round(freqVec)==718);
+%SDM *******************************
+idx_low = find(freqVec<=50, 1, 'last' );
+idx_high = find(freqVec >= 700, 1 );
+psdVec(1:idx_low) = psdVec(idx_low);
+%***********************************
+%psdVec(1:idx_low) = psdVec(idx_low(3));
 psdVec(idx_high:end) = psdVec(idx_high);
-psdPosFreq = psdVec;
+%SDM *******************************
+psdPosFreq = psdVec.^2;
 figure;
-plot(posFreq,psdPosFreq);
+loglog(posFreq,psdPosFreq);
+hold on;
+[pxx,f]=pwelch(statgaussnoisegen(nSamples,[posFreq(:),psdPosFreq(:)],100,sampFreq),...
+               128,[],[],sampFreq);
+loglog(f,pxx)
+%************************************
+%plot(posFreq,psdPosFreq);
 axis([0,posFreq(end),0,max(psdPosFreq)]);
 xlabel('Frequency (Hz)');
 ylabel('PSD ((data unit)^2/Hz)');
