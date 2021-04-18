@@ -1,4 +1,7 @@
 %% Plot the AM-FM sinusoid signal
+%SDM***********************
+addpath ../../SIGNALS
+%**************************
 % Signal parameters
 f0 = 70;
 f1 = 10;
