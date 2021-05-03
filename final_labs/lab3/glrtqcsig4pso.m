@@ -70,12 +70,10 @@ function ssrVal = ssrqc(x,params)
 %Generate normalized quadratic chirp
 phaseVec = x(1)*params.dataX + x(2)*params.dataXSq + x(3)*params.dataXCb;
 qc = sin(2*pi*phaseVec);
-
-%Compute fitness
-%We do not need the normalization factor, just the  template vector
+qc = qc/norm(qc);
 [templateVec,~] = normsig4psd(qc,params.sampFreq,params.psdPosFreq,1);
 % Calculate inner product of data with template
 llr = innerprodpsd(params.dataY,templateVec,params.sampFreq,params.psdPosFreq);
 %GLRT is its square
 glrt = llr^2;
-ssrVal = glrt;
+ssrVal = -glrt;
