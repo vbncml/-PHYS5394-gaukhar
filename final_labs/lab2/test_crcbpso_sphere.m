@@ -26,14 +26,14 @@ psoOut = struct('totalFuncEvals',[],...
 % optimize code by vectorizing the for loop
 psoOut(2:nRuns)=psoOut(1);
 
-
+psoParams = struct('maxSteps',4000);
 parfor lpruns = 1:nRuns
         %Reset random number generator for each worker such that the
         %pseudo-random sequence is different for them but they repeat
         %everytime this code is run
         rng(lpruns);
         %PSO run 
-        psoOut(lpruns) = crcbpso(fitFuncHandle,nDim);
+        psoOut(lpruns) = crcbpso(fitFuncHandle,nDim,psoParams);
 end
 %Find best run
 bestRun = 1;

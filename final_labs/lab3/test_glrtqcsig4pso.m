@@ -1,8 +1,8 @@
 % Path to folder containing signal and noise generation codes.
 addpath ../../SIGNALS
 addpath ../../NOISE
-addpath('/Users/gokha/Desktop/spring2021/stat_meth/SDMBIGDAT19/CODES')
-addpath('/Users/gokha/Desktop/spring2021/stat_meth/DATASCIENCE_COURSE/DETEST')
+% addpath('/Users/gokha/Desktop/spring2021/stat_meth/SDMBIGDAT19/CODES')
+% addpath('/Users/gokha/Desktop/spring2021/stat_meth/DATASCIENCE_COURSE/DETEST')
 %% Parameters for data realization
 % Number of samples and sampling frequency.
 nSamples = 2048;
@@ -22,9 +22,9 @@ psdPosFreq = noisePSD(posFreq);
 a1=9.5;
 a2=2.8;
 a3=3.2;
-A=10;
+snr=10;
 noiseVec = statgaussnoisegen(nSamples,[posFreq(:),psdPosFreq(:)],100,sampFreq);
-sig4data = crcbgenqcsig(timeVec,A,[a1,a2,a3]);
+sig4data = crcbgenqcsig(timeVec,snr,[a1,a2,a3]);
 % Signal normalized to SNR=10
 [sig4data,~]=normsig4psd(sig4data,sampFreq,psdPosFreq,10);
 dataVec = noiseVec+sig4data;
