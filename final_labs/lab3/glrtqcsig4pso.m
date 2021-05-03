@@ -78,4 +78,4 @@ qc = sin(2*pi*phaseVec);
 llr = innerprodpsd(params.dataY,templateVec,params.sampFreq,params.psdPosFreq);
 %GLRT is its square
 glrt = llr^2;
-ssrVal = glrt;
+ssrVal = -glrt;
