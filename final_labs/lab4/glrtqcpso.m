@@ -72,8 +72,11 @@ for lpruns = 1:nRuns
     estSig = crcbgenqcsig(inParams.dataX,1,qcCoefs);
     [templateVec,~] = normsig4psd(estSig,inParams.sampFreq,inParams.psdPosFreq,1);
     estAmp = innerprodpsd(inParams.dataY,templateVec,inParams.sampFreq,inParams.psdPosFreq);
-    estAmp = estAmp^2;
-    estSig = estAmp*estSig;
+    %SDM*********************
+%     estAmp = estAmp^2;
+%     estSig = estAmp*estSig;
+    estSig = estAmp*templateVec;
+    %************************
     outResults.allRunsOutput(lpruns).estSig = estSig;
     outResults.allRunsOutput(lpruns).totalFuncEvals = outStruct(lpruns).totalFuncEvals;
 end

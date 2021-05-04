@@ -30,7 +30,13 @@ a2=3;
 a3=3;
 snr=10;
 rng('default');
-noiseVec = statgaussnoisegen(nSamples,[posFreq(:),psdPosFreq(:)],100,sampFreq);
+%SDM************************
+%SDM: Best to remove the startup transient in the generated colored noise
+%that comes from using the FIR filter: Generate extra samples and then
+%extract the samples after the startup transient.
+noiseVec = statgaussnoisegen(nSamples+99,[posFreq(:),psdPosFreq(:)],100,sampFreq);
+noiseVec = noiseVec(100:end);
+%****************************
 sig4data = crcbgenqcsig(timeVec,snr,[a1,a2,a3]);
 % Signal normalized to SNR=10
 [sig4data,~]=normsig4psd(sig4data,sampFreq,psdPosFreq,10);
